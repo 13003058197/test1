@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <title>Title</title>
+    <style>
+        #div2{
+            border: 2px solid black;
+        }
+    </style>
+    <script>
+
+    </script>
+    
+
+</head>
+<body>
+    <input type="file" id="files"><br>
+    <canvas id="canvas" width="500" height="400" style="background-color: darkseagreen"></canvas>
+    <div style="height: 200px;width: 400px; border: 1px solid black; overflow: auto" contentEditable >123456789
+        <div>一二三四五六七
+            <p>abcdefg</p>
+        </div>
+    </div>
+    <iframe name="richedit" style="height: 200px;width: 400px;" src="blank.html"></iframe>
+    <a href="http://www.baidu.com" id="link">baidu123344</a>
+    <br>
+    <label><input type="checkbox" name="play" value="lunch"> 吃饭</label>
+    <label><input type="checkbox" name="play" value="sleep"> 睡觉</label>
+    <label><input type="checkbox" name="play" value="film"> 看电影</label>
+    <br>
+    <input type="text" id="input" value="最美的不是下雨天" pattern = "\d+">
+    <input type="button" id="btn" value="按钮">
+    <canvas id="draw" width="200" height="200">
+        <p>暂不支持</p>
+    </canvas>
+    <img id="img" src="images/1.png">
+    <div id="div1" style="height: 100px; width: 100px; background-color: antiquewhite;border: 10px solid cadetblue; padding: 10px;">
+        <div id="div1-1" style="height: 100px; width: 100px; background-color: indianred;"></div>
+    </div>
+    <div id="div2" style="height: 250px; width: 1000px; background-color: goldenrod">2</div>
+    <div id="div3" style="height: 250px; width: 100px; background-color: darkseagreen">3</div>
+    <div id="div4" style="height: 250px; width: 100px; background-color: indianred">4</div>
+    <div id="div5" style="height: 250px; width: 100px; background-color: cadetblue">5</div>
+    <script>
+        (function uplaodFile(event){
+            var filesInput = document.getElementById("files");
+            filesInput.addEventListener("change", function(event){
+                var files = event.target.files,
+                    reader = new FileReader();
+                for(var i =0 ;i < files.length; i++){
+                    var file = files[i];
+                    console.log("file:", file.name, file.type, file.size);
+                    // reader.readAsText(file.slice(0, 100));
+                    reader.readAsDataURL(file);
+                    // reader.readAsBinaryString(file);
+                    reader.onload = function(){
+                        console.log("load:: ", reader.result);
+                    }
+                    reader.onprogress = function(event){
+                        console.log("progress: ", event.lengthComputable,event.loaded,event.total);
+                    }
+                    reader.onerror = function(){
+                        console.log("error: ", reader.error.code)
+                    }
+                }
+            })
+        })()
+        window.onerror = function(message, ul, line){
+            // console.log("my error:::::",message);
+            // return false;
+        }
+        window.onload = function(){
+            
+            frames[0].document.designMode = "on";
+            // frames["jay"].document.designMode = "on";
+            var img = document.getElementById("img")
+            convertImage(img);
+            canvasPractise();
+        }
+        function canvasPractise(){
+            var canvas = document.getElementById("canvas");
+
+            if(canvas.getContext){
+                var context = canvas.getContext("2d")
+
+                var gradient = context.createLinearGradient(0, 0, 100, 100);
+                gradient.addColorStop(0, "red");
+                gradient.addColorStop(1, "green");
+
+                context.fillStyle = gradient;
+                context.fillRect(0, 0, 100, 100);
+
+                // context.beginPath();
+                // context.arc(100, 100, 90, 0, Math.PI*2, false);
+                // context.moveTo(195, 100);
+                // context.arc(100, 100, 95, 0, Math.PI*2, false);
+                //
+                // context.translate(100, 100);
+                // context.rotate(45);
+                //
+                // context.moveTo(0, 0);
+                // context.lineTo(0, -75);
+                // context.moveTo(0, 0);
+                // context.lineTo(-60, 0);
+                //
+                // context.stroke();
+                // context.fillStyle="red";
+                // context.fillRect(10, 10, 50, 50);
+                // context.strokeStyle = "green";
+                // context.lineWidth = 10;
+                // context.lineJoin = "bevel";
+                // context.strokeRect(100, 20, 100, 100);
+                // context.clearRect(20, 20, 20, 20);
+            }
+
+        }
+        function convertImage(img){
+            img.color = img.src;
+            img.grayscale = createGrayscale(img);
+
+            // img.src = img.grayscale;
+            img.onmouseover = function(){
+                this.src = this.grayscale;
+            }
+            img.onmouseout = function(){
+                img.src = this.color;
+            }
+        }
+
+        function createGrayscale(img){
+            var canvas = document.createElement("canvas")
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0);
+            var c = ctx.getImageData(0, 0, img.width, img.height);
+            for(var i = 0; i < c.data.length; i+=4){
+                var r = c.data[i];
+                var g = c.data[i+1];
+                var b = c.data[i+2];
+                c.data[i] = c.data[i+1] = c.data[i+2] = (r+g+b)/3;
+            }
+            ctx.putImageData(c, 0, 0, 0, 0, c.width, c.height);
+            return canvas.toDataURL();
+        }
+
+        function draw(){
+            var canvas = document.getElementById("draw")
+            var ctx = canvas.getContext("2d");
+            ctx.beginPath();
+            ctx.moveTo(0,0);
+            //ctx.bezierCurveTo(20,100,200,100,200,20);
+            ctx.lineTo(100, 0);
+            ctx.lineTo(100, 100)
+            ctx.lineTo(0, 100)
+            ctx.lineTo(0, 0)
+            ctx.closePath();
+            ctx.fill();
+            ctx.lineWidth = 10;
+            ctx.strokeStyle= "#ff0000";
+            ctx.stroke();
+        }
+
+        console.log(document.readyState);
+    </script>
+</body>
+</html>

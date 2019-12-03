@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <title>Title</title>
+</head>
+<body>
+    <div class="video-wrapper">
+        <video controls src="images/10s.mp4" id="video1">
+            <a href="images/1.mp4">下载视频</a>
+        </video>
+<!--        <div>&#x25BA</div>-->
+<!--        <div>&#x2590;&#x2590;</div>-->
+    </div>
+    <div class="video-wrapper">
+        <video controls src="images/10s.mp4">
+            <a href="images/1.mp4">下载视频</a>
+        </video>
+        <!--        <div>&#x25BA</div>-->
+        <!--        <div>&#x2590;&#x2590;</div>-->
+    </div>
+    <script>
+        window.onpopstate = function(event){
+            console.log("popstate-video", event.state);
+        }
+        window.onload = function(){
+            window.video = document.getElementById("video1");
+            var vids = document.getElementsByTagName("video")
+            for(var i = 0; i < vids.length; i++){
+                addControls(vids[i])
+            }
+
+        }
+        function addControls(vid){
+            // vid.removeAttribute("controls");
+            //自定义控制器的div
+            var controls = document.createElement("div");
+            controls.setAttribute("class", "controls");
+
+            //播放按钮
+            var play = document.createElement("div");
+            play.setAttribute("class", "play");
+            play.innerHTML = "&#x25BA";
+
+            //视频时长
+            var process = document.createElement("div");
+            process.innerHTML = "00:00/00:00"
+
+            controls.appendChild(play);
+            controls.appendChild(process);
+            vid.parentNode.insertBefore(controls, vid);
+
+            play.onclick = function(){
+                if(vid.ended){
+
+                }
+                if(vid.paused){
+                    vid.play();
+                }else{
+                    vid.pause();
+                }
+            }
+
+            vid.addEventListener("play", function(){
+                play.innerHTML = "&#x2590;&#x2590;"
+            })
+            vid.addEventListener("pause", function(){
+                play.innerHTML = "&#x25BA"
+            })
+            vid.addEventListener("timeupdate", function(){
+                console.log("timeupdate");
+                process.innerHTML = `${vid.currentTime}/${vid.duration}`
+            })
+            vid.addEventListener("ended", function(){
+                vid.pause();
+            })
+        }
+    </script>
+</body>
+</html>

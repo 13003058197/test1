@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div style="width: 100px;height: 100px;background-color: cornflowerblue;position:absolute"></div>
+    <script>
+        var Drag = function(){
+            var dragging = null;
+            var diffX = 0;
+            var diffY = 0;
+            function handleEvent(event){
+                console.log(event.type);
+                switch(event.type){
+                    case "mousedown":
+                        dragging = event.target;
+                        diffX = event.clientX - dragging.offsetLeft;
+                        diffY = event.clientY - dragging.offsetTop;
+                        break;
+                    case "mousemove":
+                        if(dragging){
+                            dragging.style.left = event.clientX - diffX + "px";
+                            dragging.style.top = event.clientY -diffY + "px";
+                        }
+                        break;
+                    case "mouseup":
+                        dragging = null;
+                        break;
+                }
+            }
+            return {
+                enable: function(){
+                    document.addEventListener("mousedown", handleEvent);
+                    document.addEventListener("mousemove", handleEvent);
+                    document.addEventListener("mouseup", handleEvent);
+                },
+                disable: function(){
+                    document.removeEventListener("mousedown", handleEvent);
+                    document.removeEventListener("mousemove", handleEvent);
+                    document.removeEventListener("mouseup", handleEvent);
+                }
+            }
+        }()
+        Drag.enable();
+    </script>
+</body>
+</html>

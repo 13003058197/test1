@@ -1,0 +1,139 @@
+/* @group page structure
+---------------------------------------------------------------- */
+/*  Color Variables
+
+@color #434343; dark gray
+@color #434343; dark gray
+@color #434343; dark gray
+@color #434343; dark gray
+ */
+
+/*
+@@@@@@@@@@
+外部样式链接和导入，导入样式表比链接样式表慢
+    <link href="/my.css" rel="stylesheet" type="text/css"/>
+    和
+    <style>
+          @import url("/my.css");
+    </style>
+
+@@@@@@@@@@@
+使用多个css文件与速度相关的问题：
+    1.多个文件会导致服务器发送多个数据包，这些数据包的数量会影响下载速度
+    2.浏览器只能从同一个域同时下载数量有限的文件
+
+@@@@@@@@@@@
+盒模型：外边距+边框+内边距+内容区域
+        width和height是内容区域的宽度和高度
+
+@@@@@@@@@@@
+边距叠加（垂直方向），只有普通文档流中块筐的垂直外边距才会发生外边距叠加。行内框、浮动框或绝对定位框之间不会发生叠加
+
+@@@@@@@@@@@
+伪元素清理浮动
+.clear:after{
+    content: ".";
+    height: 0;
+    visibility: hidden;
+    display: block;
+    clear:both;
+}
+
+@@@@@@@@@@@
+IE条件注释
+<!--[if IE 6]>
+    外部链接样式
+<![endif]-->
+<!--[if lt IE 6]>
+    外部链接样式
+<![endif]-->
+<!--[if IE]>
+    外部链接样式
+<![endif]-->
+
+
+@@@@@@@@@@@
+链接伪类选择器次序非常重要
+a:link, a:visited, a:hover, a:focus, a:active
+
+@@@@@@@@@@@
+为链接目标设置样式,http://example.com/index.html#comment3
+comment:target{ background-color: yellow}
+
+@@@@@@@@@
+ul{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+[rel="prev"],[rel="nex"]{
+    上一页，下一页样式
+    content:"\00AB";
+    content:"\00BB";
+}
+<dl>
+    <dt></dt>
+        <dd></dd>
+        <dd></dd>
+</dl>
+
+@@@@@@@@@
+两个表格边盒模型：单独的（默认）和叠加的
+table{
+    border-collapse: seperate（单独模型）/collapse（叠加模型）;
+    border-spacing: 0;//控制单元格之间距离
+}
+<table summary="类似于alt作用相似">
+    <caption>表格的标题</caption>
+    <thead></thead>
+    <tbody></tbody>
+    <tbody></tbody>
+    <tbody></tbody>
+    <tfoot></tfoot>
+</table>
+
+
+@@@@@@@@@
+高度相等列
+.wrapper{
+    overflow: hidden;
+    .box{
+        padding-bottom: 1000px;
+        margin-bottom: -1000px;
+    }
+}
+div{
+   column-count: 3;
+   column-width: 100px;
+   column-gap: 10px;
+   column-rule: 1px solid #ccc;
+}
+
+@@@@@@@@@@
+什么是BFC？
+浮动元素和绝对定位元素，非块级盒子的块级容器（例如 inline-blocks, table-cells, 和 table-captions），
+以及overflow值不为“visiable”的块级盒子，都会为他们的内容创建新的BFC（块级格式上下文）。
+
+BFC是一个独立的布局环境，其中的元素布局是不受外界的影响，
+并且在一个 BFC 中，块盒与行盒（行盒由一行中所有的内联元素所组成）都会垂直的沿着其父元素的边框排列。
+
+使用以下方式都能创建 BFC
+float 的值不是 none。
+position 的值不是 static 或者 relative。
+display 的值是 inline-block、table-cell、flex、table-caption 或者inline-flex
+overflow 的值不是 visible
+
+你可以使用display:flow-root安全的创建BFC
+
+@@@@@@@@@@@
+IE将text-align: center误解为让所有东西居中
+1.浮动元素添加display: inline预防IE双边距浮动bug
+2.3像素文本偏移：
+3.IE6的重复字符bug；解决：删除html中的注释
+4.IE6的藏猫猫bug；
+    表现：一个浮动元素后面跟着一个非浮动元素，然后是一个清理元素，所有这些元素都包含在一个设置了背景色或者图像的父元素中。
+         如果清理元素碰到浮动元素，那么中间的非浮动元素看起来消失了，实际隐藏在父元素后，刷新可见
+    解决：去掉父元素的背景
+         或者避免清理元素于浮动元素基础
+         或者浮动元素和容器的position设置relative
+*/
