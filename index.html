@@ -9,14 +9,51 @@
         #div2{
             border: 2px solid black;
         }
+
+        
+        
     </style>
     <script>
+        var arr = [{'a':1},{'a':2},{'a':1},{'a':3},{'a':1}]
+        function getCommon(arr){
+            var obj = {};
+            var result = [];
+            arr.forEach(item => {
+                if(obj[item['a']]){ //有重复，才会进来
+                    if(obj[item['a']] <= 1){ 
+                        result.push(item); 
+                    }
+                    obj[item['a']] ++;
+                
+                }else{
+                    obj[item['a']] = 1; 
+                }
+                
+            })
 
+            return result;
+        }
+        console.log("=======", getCommon(arr));
+    
+
+       function shallowClone(o){
+           const obj = {};
+           for(let i in o){
+               obj[i] = o[i];
+           }
+           return obj;
+       }
+       const oldObj = {
+
+       }
     </script>
     
 
 </head>
 <body>
+    <div>
+        <div style="width: 50%; padding-top: 100%;background-color: antiquewhite;"></div>
+    </div>
     <input type="file" id="files"><br>
     <canvas id="canvas" width="500" height="400" style="background-color: darkseagreen"></canvas>
     <div style="height: 200px;width: 400px; border: 1px solid black; overflow: auto" contentEditable >123456789

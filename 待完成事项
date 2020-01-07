@@ -1,21 +1,36 @@
-安装git，npm，学习vue，react，node，es6，webpack
-节流和防抖动？？？
-    函数去抖动
-重绘和回流
-flex？？？？
-promise？？？？？？
-node？？？？
-webpack？？？？
-git？？？？
-一个请求的过程？？？？
-面试题
-动画属性
- export default /constructor 模块
- http几次握手
- TCP协议和http协议
- for-of
- vue和vuex
 
+##### 已完成
+git
+节流和防抖动？？？
+重绘和回流
+npm
+yarn
+ for-of
+ generator async函数
+ promise？？？？？？
+ export default /constructor 模块
+ flex
+ 动画
  一次完成的http请求过程
     https://www.cnblogs.com/xuzekun/p/7527736.html
+    https://www.toutiao.com/i6759405969584685575/?tt_from=weixin_moments&utm_campaign=client_share&wxshare_count=2&from=timeline&share_type=original&timestamp=1573870893&app=news_article&utm_source=weixin_moments&isappinstalled=0&utm_medium=toutiao_android&req_id=201911161021330100140400862ECF59B7&group_id=6759405969584685575&pbid=6750444802959836676
+    postcss alias polyfill
+    vue和vuex vue-router
 
+##### 未完成
+vertical-align
+preset  babel
+学习react，node，webpack
+
+面试题
+TCP协议和http协议
+
+render function(creatElement){
+    return createElement("h1", "text");
+}
+
+<solt :user="user" name="header"></solt>
+
+<div v-solt:default="soltProps">
+    {{soltProps.user.name}}
+</div>

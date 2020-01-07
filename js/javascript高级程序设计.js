@@ -93,8 +93,8 @@
  变量、作用域、内存问题
     1.基本类型和引用类型的值
         基本类型：按值访问，保存在栈内存中
-        引用类型：的值是保存在堆内存中的对象，javascript不允许直接范文内存中的位置，按引用访问
-    2.复制变量值，引用类型复制的是引用
+        引用类型：的值是保存在堆内存中的对象，javascript不允许直接访问内存中的位置，按引用访问
+    2.复制变量值，引用类型赋值的是引用
     3.传递参数：函数中传递参数是按值传递，参见4.1.3
             function setName(obj){
                 obj.name = "fan";
@@ -173,6 +173,10 @@
                 filter():对数组的每项运行给定的函数，返回该函数会返回true的项组成的数组
                 map():对数组的每项运行给定的函数，返回每个函数调用的结果组成的数组
                 forEach():对数组的每项运行给定的函数，没有返回值
+                    arr.forEach(callback(currentValue [, index [, array]])[, thisArg]);        
+                    1、forEach() 方法按升序为数组中含有效值的每一项执行一次 callback 函数，那些已删除或者未初始化的项将被跳过（例如在稀疏数组上）。
+                    2、如果 thisArg 参数有值，则每次 callback 函数被调用时，this 都会指向 thisArg 参数。如果省略了 thisArg 参数，
+                        或者其值为 null 或 undefined，this 则指向全局对象。
                 forEach(function(item, index, 数组本身){}, this)
             9.归并方法:迭代数组所有项，然后构建一个最终返回值。
                 reduce()和reduceRight()：接收两个参数，一个是每一项上调用的函数和作为归并基础的初始值(可选的)。第一个函数参数接收4个值：前一个值，当前值，
@@ -208,7 +212,7 @@
                 getHours()
                 setHours():超过增加天数
                 getMinutes()
-                setMinutes():超过增加消失
+                setMinutes():超过增加小时
                 getSeconds()
                 setSeconds()：超过增加分钟
                 getMilliseconds()：获取毫秒数
@@ -276,7 +280,7 @@
             函数声明：function sum(n1,n2){ return n1+n2}
             函数表达式：var sum = function(n1,n2){ return n1+n2}
             构造函数: var sum = new Function("n1","n2","return n1+n2"),不推荐，这种语法会导致两次解析，影响性能
-        2.解析器在向执行环境中加在数据时，会率先读取函数声明，并使其在执行任何代码前可用；至于函数表达式，则必须等到解析器执行到它所在的代码行。
+        2.解析器在向执行环境中加载数据时，会率先读取函数声明，并使其在执行任何代码前可用；至于函数表达式，则必须等到解析器执行到它所在的代码行。
         3.函数内部的属性：每个函数在调用时会自动获函数内部有两个特殊的对象arguments 和 this
             arguments:类数组对象，保存函数参数，有一个callee属性指向拥有这个arguments对象的函数，严格模式下callee会出错
             this:引用的是函数据以执行的环境对象（当在网页的全局作用域中调用函数时，this对象引用的就是window）
@@ -335,7 +339,7 @@
                         match(正则表达式或RegExp对象):本质上和调用RegExp的exec()方法相同
                         search(正则表达式或RegExp对象):返回字符串中第一个匹配项的索引
                         replace(正则表达式或字符串，字符串或是函数):如果第一个参数时字符串，那么只会替换第一个子字符串，
-                            如果第二个参数时字符串，那么还可以是一些特殊的字符序列（如：$&,$n匹配第n个捕获组的子字符串等）
+                            如果第二个参数是字符串，那么还可以是一些特殊的字符序列（如：$&,$n匹配第n个捕获组的子字符串等）
                                 var text = "cat , bat";
                                 var result = text.replace(/(.at)/g, "A_$1"); // A_cat, A_bat
                             如果第二个参数时函数：
@@ -406,6 +410,7 @@
                         }
                         Object.defineProperty(book, "year",{
                             get: function(){
+                                console.log("------");
                                 return this._year;
                             },
                             set: function(value){
@@ -536,7 +541,7 @@
                 this.age = age;
             }
             SubType.prototype = new SuperType();//关键步骤 2
-            SubType.prototype.constructor = SubType;
+            SubType.prototype.constructor = SubType; //关键步骤 3
 
 ###################
  函数表达式
@@ -553,13 +558,13 @@
     3.闭包:有权访问另一个函数作用域中的变量的函数
             当某个函数被调用时，会创建一个执行环境及相应的作用域链，然后使用arguments和其他命名参数的值来初始化函数的活动对象，
             在作用域链中,外部函数的活动对象处于第二位，作用域链的终点是全局变量对象
-            匿名函数的包含函数执行完毕后，包含函数的执行环境的作用域链会被销毁，但是它的活动对象仍然留在内存中，直到年明函数被销毁
+            匿名函数的包含函数执行完毕后，包含函数的执行环境的作用域链会被销毁，但是它的活动对象仍然留在内存中，直到匿名函数被销毁
         1.闭包与变量：闭包只能取得包含函数中任何中变量的最后一个值
              function createFunctions(){
                 var result = new Array();
                 for(var i=0; i<10; i++){
                     result[i] = function(){
-                            return ;
+                            return i;
                         }
 
                 }
@@ -641,8 +646,8 @@
             2、innerWidth和innerHeight:表示该容器中页面试图区域的大小(可见视口)
             3、resizeTo(x, y)和resizeBy(x, y)调整浏览器窗口大小（可能被禁用）
         4.导航和打开新窗口
-            window.open()：接收4个参数：要加在的url、窗口目标、一个特性字符串以、表示新页面是否取代浏览器历史记录中当前加在页面的布尔值
-                        1.如果第二个参数是已有窗口或是框架的名称，那么机会在具有改名称的窗口或框架中加载第一个参数指定的URL（_blank,_self,_top,_parent,frameName）
+            window.open()：接收4个参数：要加在的url、窗口目标、一个特性字符串以、表示新页面是否取代浏览器历史记录中当前加载页面的布尔值
+                        1.如果第二个参数是已有窗口或是框架的名称，那么就会在具有改名称的窗口或框架中加载第一个参数指定的URL（_blank,_self,_top,_parent,frameName）
                         2.会返回一个指向新窗口的引用
                         3.新创建的窗口对象有一个opener属性，保存着打开它的原始窗口对象。
                             var newWin = window.open("");
@@ -753,7 +758,8 @@
     4、操作节点
         appendChild()：向childNodes列表的末尾添加一个节点，返回新增的节点，
                         如果appendChild()中的节点已经是文档的一部分，那结果就是将该节点从原来的位置转移到新位置
-        insertBefore()：接收两个参数：要插入的节点和作为参考的节点，把节点放在childNodes列表中的特定位置上，返回插入的节点。如果参照节点是null，则和appendChild执行相同操作
+        insertBefore()：接收两个参数：要插入的节点和作为参考的节点，把节点放在childNodes列表中的特定位置上，返回插入的节点。
+                        如果参照节点是null，则和appendChild执行相同操作
         replaceChild()：参数：要插入的节点和要替换的节点，返回要替换的节点
         removeChild()：参数：要移除的节点，返回移除的节点
     5、其他方法
@@ -932,7 +938,7 @@
             "beforebegin":当前元素之前插入一个紧邻的同辈元素
             "afterbegin"：当前元素第一个子元素之前插入一个新的子元素
             "beforeend"：当前元素最后一个子元素之后插入一个新的子元素
-            "afterendn"：当前元素之后插入一个紧邻的同辈元素
+            "afterend"：当前元素之后插入一个紧邻的同辈元素
         内存和性能问题：
             使用上述的方法将元素从文档树种删除后，元素与事件处理程序（或js对象）之间的绑定关系在内存中并没有删除。这种情况频繁出现，内存数量会明显增加
             在插入大量HMTL标记相对效率高，这是因为设置innerHTMl和outerHTML时会创建解析器。这个解析器是在浏览器级别的代码基础上运行的，总结，使用次数控制合理最好。
@@ -1100,7 +1106,7 @@
                     image.src="url"
                     document.body.appendChild(image)
             2、unload事件
-                在文档被完全卸载后触发。只要用户从一个页面切换到另一个页面，就会发生unload事件。利用这个时间最多的情况是清除索引，避免内存泄漏。
+                在文档被完全卸载后触发。只要用户从一个页面切换到另一个页面，就会发生unload事件。利用这个事件最多的情况是清除索引，避免内存泄漏。
                 可以在window，body上指定
             3、resize事件
                 当浏览器窗口被调整到新的高度或宽度时，就会在window上触发resize
@@ -1152,11 +1158,11 @@
         5、键盘与文本事件
             keydown:用户按下键盘上任意键触发
             keyup:用户释放键盘上的键时触发
-            keydown：能够插入或删除字符的键都会触发
+            keypress：能够插入或删除字符的键都会触发
             注：所有元素都支持以上3个事件，但是文本框输入文本时最常用，keydown和keypress在文本框变化之前触发，keyup在文本框发生变化之后触发
                 1、event.keyCode（建码）属性：对数字字母字符键keyCode的值与ASCII中对应小写字母或数字的编码相同
                 2、event.charCode只有在发生keypress事件时才包含值，按下那个键代表字符的ASCII编码，String.fromCharCode()可以将其转化成实际字符
-               DOM3级中event包含新的属性兼容问题不推荐使用。
+                DOM3级中event包含新的属性兼容问题不推荐使用。
                     1、event.key：按下某个键就返回相应的文本字符
                     2、event.char: 按下字符键与key相同，按下非字符键值为null
                     3、event.location/keyLocation: 表示按了什么位置上的键
@@ -1173,7 +1179,7 @@
             DOMAttrModified：在特性被修改之后触发
             DOMCharacterDataModified：文本节点的值发生变化是触发
         9、hTML5事件
-            1、contextmenu事件，可以通过单击鼠标右键调出来上下文菜单。冒泡，通过event。preventDefault()取消默认上下文菜单。
+            1、contextmenu事件，可以通过单击鼠标右键调出来上下文菜单。冒泡，通过event.preventDefault()取消默认上下文菜单。
             2、beforeunload事件，这浏览器unload页面之前触发，可以通过他来取消卸载并继续使用原页面。
                 window.onbeforeunload = function(event){
                     var message = "你确定要离开该页面";
@@ -1258,7 +1264,7 @@
     6、模拟事件和自定义事件（见13.6）
  ###############
  表单脚本
-    1.表单的基础知识
+    1.表单的基础知识`
         1、表单有form元素来表示，独有的属性和方法
             acceptCharset: 服务器能够处理的字符集
             enctype：请求的编码类型
@@ -1295,6 +1301,7 @@
             3、共有的表单字段事件
                 blur
                 focus
+                input
                 change：对于input和textarea它失去焦点且value改变时触发，select选项改变时触发。
     2、文本框脚本
             两种文本框的表现形式：
@@ -1421,7 +1428,7 @@
             方式1： 常规dom操作
             方式2： Option构造函数
                 var option = new Option(text, value)
-                selectbaox.appendChild(option)
+                selectbox.appendChild(option)
             方式3：
                 selectAdd(newOption, undefined) 和  insertBefore()
         3、移除选项
@@ -1494,7 +1501,7 @@
             4、bizierCurveTo(cx1,cy1,cx2,cy2, x, y)从上一点开始，以x，y为止，以cx1,cy1,和cx2,cy2为控制点绘制三次曲线
             5、quadraticCurveTo(cx, cy, x, y):绘制一个二次曲线
             6、rect(x, y, width, height) 从x，y点开始绘制矩形。这个方法绘制的是路径，而不是strokRect()和fillRect所绘制的形状
-            7、lineTo(x, y)： 从上一点开始，到x，y结束绘制一天直线
+            7、lineTo(x, y)： 从上一点开始，到x，y结束绘制一条直线
             8、moveTo(x, y): 将绘图游标移动到x，y点
             9、closePath()如果想绘制一条连接到起点的线
             10、fill()：使用fillStyle填充路径
@@ -1602,7 +1609,7 @@
             event.data: 传入的字符串
             origin： 发送消息的文档所在的域：http://www.work.com
             source: 发送消息的文档的window对象代理。如果发送消息的窗口来自同一个域，那这个对象就是window。
-                    注：不能通过这个source代理对象访问window上的任何信息，智能调用postMessage()
+                    注：不能通过这个source代理对象访问window上的任何信息，只能调用postMessage()
                     window.onmessage=function(event){
                         if(event.origin == "http://www.work.com"){
                             event.source.postMessage("收到", "http://p2p.worx.com")
@@ -1624,7 +1631,7 @@
         2、可拖动
             默认情况下，图片，链接，被选中的文本是可以拖动的。其他元素通过设置draggable="true/false"来控制是否可拖动
         3、自定义放置目标
-            虽然所有元素都支持放置目标事件，但是元素默认是不允许放置的。可以取消dragenter和dragover事件的默认行为，把元素编程有效的放置目标
+            虽然所有元素都支持放置目标事件，但是元素默认是不允许放置的。可以取消dragenter和dragover事件的默认行为，把元素编辑成有效的放置目标
                 注意：为了兼容firefox，drop事件也需要加
                 dragTargetElement.ondragenter = 
                 dragTargetElement.ondragover = 
@@ -1642,7 +1649,7 @@
                             event.dataTransfer.getData("Text") //读取文本
         5、dropEffect和effectAllowed
             确定被拖动元素以及作为放置目标的元素能够接受什么操作，属于dataTransfer对象的属性
-            dataTransfer.dropEffect：被拖懂元素可以执行那些放置属行为。会导致光标显示不同符号。
+            dataTransfer.dropEffect：被拖动元素可以执行那些放置属行为。会导致光标显示不同符号。
                                     在dragenter事件中设置它。搭配effectAllowed才有用
                 "none": 不能把拖动元素放在这里。这是除文本之外所有元素的默认值
                 "move": 应该把拖动元素移动到放置目标
@@ -1812,6 +1819,7 @@ JSON
                 }
     2、JSON对象
         JSON.stringify()：js对象序列化json字符串。注：值为undefined的任何属性都会被跳过。
+                          方法将一个 JavaScript 值（对象或者数组）转换为一个 JSON 字符串
         JSON.parse(): 把json字符串解析为原生js值
         1、序列化选项
             JOSN.stringfy()除了要序列化的选项，还接受另外两个参数。第一个参数是过滤器（数组或函数），第二个参数是选项，表示是否在json字符串中保留缩进。
@@ -1828,14 +1836,14 @@ JSON
                     }
                 })
             3、字符串缩进参数：控制结果中的缩进和空白符。这个参数可以使数值，表示缩进的空格数（最多10个空格）。如果这个参数是字符串，缩进的空格将被这个字符串代替。
-                JSON.string(person, null, 4);
+                JSON.stringify(person, null, 4);
          2、JSON.parse()也可以接受另一个参数：该参数时函数，该函数接受两个参数，一个键和值
 ######################### 
 Ajax和Comet
     ajax：Asynchronous Javascript + XML 的简写。这技术能够向服务器请求额外的数据而无须卸载页面，带来更好的用户体验。
     核心是：XMLHttpRequest对象。
     1、XHR的用法
-        xhr.open(请求类型，请求URL，是否异步)：不会发请求，知识启动一个请求以备发送。只能同域。
+        xhr.open(请求类型，请求URL，是否异步)：不会发请求，只是启动一个请求以备发送。只能同域。
         xhr.send(作为请求主体发送的数据)：xhr最初设计是为了处理xml，因此可以在此传入xml dom文档。也可以传任何字符串。
         1、收到响应后，会自动填充xhr对象的属性
             xhr.responseText: 作为响应主体被返回的文本
@@ -2023,7 +2031,7 @@ Ajax和Comet
                     }, 100)
                 }
         3、函数节流和函数防抖：两者都是优化高频率执行js代码的一种手段。
-            函数节流: 是指一定时间内js方法只跑一次。比如人的眨眼睛，就是一定时间内眨一次。这是函数节流最形象的解释。
+            函数节流（throttle）: 是指一定时间内js方法只跑一次。比如人的眨眼睛，就是一定时间内眨一次。这是函数节流最形象的解释。
                 function throttle(fn, context){
                     var canRun = true;
                     return function(){
@@ -2035,7 +2043,7 @@ Ajax和Comet
                         }, 100)
                     }
                 }
-            函数防抖: 是指频繁触发的情况下，只有足够的空闲时间，才执行代码一次。比如生活中的坐公交，就是一定时间内，如果有人陆续刷卡上车，司机就不会开车。只有别人没刷卡了，司机才开车。
+            函数防抖（debounce）: 是指频繁触发的情况下，只有足够的空闲时间，才执行代码一次。比如生活中的坐公交，就是一定时间内，如果有人陆续刷卡上车，司机就不会开车。只有别人没刷卡了，司机才开车。
                 function debounce(method, context){
                     clearTimeout(mehod.id)
                     mehod.id = setTimeout(function(){

@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "webpack": "^4.41.2"
+  },
+  "name": "test1",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "index.js",
+  "devDependencies": {
+    "webpack": "^4.41.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/13003058197/test1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/13003058197/test1/issues"
+  },
+  "homepage": "https://github.com/13003058197/test1#readme"
+}
