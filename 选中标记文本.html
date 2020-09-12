@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <style>
+      .tag.blue{
+        border: 3px solid rgb(32, 156, 238);
+        background-color: rgb(32, 156, 238);
+      }
+      .tag.red{
+        border: 3px solid rgb(255, 51, 51);
+        background-color: rgb(255, 51, 51);
+      }
+      .tag{
+        color: #fff;
+        border-radius: 5px;
+        font-style: normal;
+      }
+      .tag > .delete{
+        /* margin-left: 5px; */
+        background-color: rgba(10,10,10,.2);
+        border: none;
+        border-radius: 290486px;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 0;
+        height: 20px;
+        outline: 0;
+        position: relative;
+        vertical-align: top;
+        width: 20px;
+        margin-top: 6px;
+        margin-left: 4px;
+      }
+      .tag > .delete::after{
+  
+        height: 50%;
+        width: 2px;
+        background-color: #fff;
+        content: "";
+        display: block;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        -webkit-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+        transform: translateX(-50%) translateY(-50%) rotate(45deg);
+        -webkit-transform-origin: center center;
+        transform-origin: center center;
+      }
+      .tag > .delete::before{
+        height: 2px;
+        width: 50%;
+        background-color: #fff;
+        content: "";
+        display: block;
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        -webkit-transform: translateX(-50%) translateY(-50%) rotate(45deg);
+        transform: translateX(-50%) translateY(-50%) rotate(45deg);
+        -webkit-transform-origin: center center;
+        transform-origin: center center;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <span>abcdefjhijk</span>
+    <!-- built files will be auto injected -->
+    <p class="abc" id="123" style="width: 200px;line-height: 2;">1234abcdefjhijk床前明月光，疑是地上霜，举头望明月，低头思故乡
+      中国有五千年的历史。
+      </p>
+    <button id="button">选中文字,点击按钮</button>
+    <script type="text/javascript">
+  
+    var containerElement = document.getElementById("123")
+    // var rang = document.createRange();
+    // rang.selectNode(containerElement)
+    // console.log("rang", rang);
+    var replaceSelectedStrByEle = function(className="tag red"){
+      var selecter = window.getSelection();
+      console.log("Selection:", selecter);
+      // var selectStr = selecter.toString();
+      // console.log("selectStr:", selectStr)
+      if (selecter.rangeCount) {
+        var rang = selecter.getRangeAt(0);
+        // console.log(selecter.rangeCount, rang)
+        // console.log("rang.commonAncestorContainer.chilNode:", rang.commonAncestorContainer.childNodes);
+        // console.log("rang.commonAncestorContainer.children:", rang.commonAncestorContainer.children);
+        // console.log("rang.commonAncestorContainer:", rang.commonAncestorContainer);
+        // console.log("rang.commonAncestorContainer.parentNode:", rang.commonAncestorContainer.parentNode)
+        
+        if(rang.commonAncestorContainer === containerElement || rang.commonAncestorContainer.parentNode === containerElement){
+          if(rang.commonAncestorContainer.childNodes.length == 0){
+            var ele = document.createElement("i");
+            ele.className = className;
+            var deleteBtn = document.createElement("button");
+            deleteBtn.className = "delete";
+            deleteBtn.addEventListener("click", function(event){
+              console.log(event.target.parentNode.childNodes);
+              var parentNode = event.target.parentNode;
+              parentNode.outerHTML = parentNode.firstChild.nodeValue;
+            })
+            rang.surroundContents(ele);
+            ele.appendChild(deleteBtn)
+          }
+          
+        }
+        
+      }
+    }
+
+
+
+    var oBtn = document.getElementById("button");
+    oBtn.onclick = function() {
+      // replaceSelectedStrByEle();
+      
+      replaceSelectedStrByEle('tag red');
+    //     var selectedText;
+    // if(window.getSelection){
+    //     selectedText=window.getSelection();
+    // }else if(document.selection){
+    //     selectedText=document.selection.createRange().text;
+    // }
+        // alert(selectedText);
+    };
+    var shortcutkey  = {q: "tag red", p: "tag blue"} 
+    window.keyToCodeMap = {"q":81,"w":87,"e":69,"r":82,"t":84,"y":89,"u":85,"i":73,"o":79,"p":80,"a":65,"s":83,"d":68,"f":70,"g":71,"h":72,"j":74,"k":75,"l":76,"z":90,"x":88,"c":67,"v":86,"b":66,"n":78,"m":77,"Q":81,"W":87,"E":69,"R":82,"T":84,"Y":89,"U":85,"I":73,"O":79,"P":80,"A":65,"S":83,"D":68,"F":70,"G":71,"H":72,"J":74,"K":75,"L":76,"Z":90,"X":88,"C":67,"V":86,"B":66,"N":78,"M":77}
+    // window.codeToKeymap = {65: "A", 66: "B", 67: "C", 68: "D", 69: "E", 70: "F", 71: "G", 72: "H", 73: "I", 74: "J", 75: "K", 76: "L", 77: "M", 78: "N", 79: "O", 80: "P", 81: "Q", 82: "R", 83: "S", 84: "T", 85: "U", 86: "V", 87: "W", 88: "X", 89: "Y", 90: "Z"};
+    window.codeToKeymap = {65: "a", 66: "b", 67: "c", 68: "d", 69: "e", 70: "f", 71: "g", 72: "h", 73: "i", 74: "j", 75: "k", 76: "l", 77: "m", 78: "n", 79: "o", 80: "p", 81: "q", 82: "r", 83: "s", 84: "t", 85: "u", 86: "v", 87: "w", 88: "x", 89: "y", 90: "z"}
+    document.addEventListener("keyup", function(event){
+      console.log(event.key, event.keyCode)
+      var letter = codeToKeymap[event.keyCode];
+      // console.log("letter:", letter);
+      var className = shortcutkey[letter]
+      // console.log("className", className);
+      if(letter && className){
+        replaceSelectedStrByEle(className)
+      }
+    
+      
+      
+    })
+    </script>
+  </body>
+</html>
