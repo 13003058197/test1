@@ -1,14 +1,14 @@
 {
   "dependencies": {
     "axios": "^0.19.2",
-    "webpack": "^4.41.2"
+    "webpack": "^5.75.0"
   },
   "name": "test1",
   "version": "1.0.0",
   "description": "test",
   "main": "index.js",
   "devDependencies": {
-    "webpack": "^4.41.2"
+    "webpack": "^5.75.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
